@@ -1,36 +1,55 @@
-mod types;
 mod setup;
-mod plugins;
+mod actors;
+mod components;
 
 use bevy::{
 	prelude::*,
-	render::pass::ClearColor
+	render::options::{
+		Backends,
+		WgpuOptions
+	},
 };
 
 use crate::{
 	setup::*,
-	plugins::*
+	actors::*
 };
 
 fn main() {
-	App::build()
+	let mut app = App::new();
+
+	// Resources
+	app
 		.insert_resource(
-			WindowDescriptor {
-				title: "Space Invaders!".into(),
-				width: 1000.0,
-				height: 600.0,
-				vsync: true,
-				resizable: false,
+			WgpuOptions {
+    			backends: Some(Backends::DX12),
 
 				..Default::default()
 			}
 		)
-		.insert_resource(ClearColor(Color::BLACK))
-        .add_startup_system(assets.system())
-		.add_system(fullscreen.system())
-		.add_system(exit_geme.system())
-        .add_plugins(DefaultPlugins)
-		.add_plugin(EnemyPlugin)
-		.add_plugin(PlayerPlugin)
-        .run();
+		.insert_resource(
+			WindowDescriptor {
+				title: "Space Invaders!".into(),
+				vsync: true,
+				width: 1000.0,
+				height: 600.0,
+
+				..Default::default()
+			}
+		)
+		.insert_resource(ClearColor(Color::BLACK));
+
+	// Systems
+	app
+		.add_system(exit_geme)
+		.add_system(toggle_fullscreen)
+		.add_startup_system(asset_loader);
+
+	// Plugins
+	app
+		.add_plugins(ActorsBundle)
+		.add_plugins(DefaultPlugins);
+
+	// Run game
+	app.run();
 }

@@ -4,40 +4,55 @@ use bevy::{
 	input::Input
 };
 
-use crate::types::*;
+use crate::components::*;
 
-// Player's types
-pub struct Player;
-pub struct PlayerReady(pub bool);
+// Player plugin for ActorsPlugin
+pub struct PlayerActor;
 
-pub fn player_spawn(
-	actor: Res<LoadActor>,
-	win_size: Res<GetWinSize>,
+impl Plugin for PlayerActor {
+	fn build(
+		&self,
+		app: &mut App
+	) {
+		app
+			.add_startup_stage(
+				"setup_player",
+				SystemStage::single(spawn_system)
+			)
+			.add_system(movement_system)
+			.add_system(shooting_system)
+			.add_system(laser_system);
+	}
+}
+
+// Spawn player when game starts
+pub fn spawn_system(
+	actor: Res<ActorLoader>,
+	gws: Res<GetWindowSize>,
 	mut cmds: Commands
 ) {
-	let pos_btm = -win_size.h / 2.0;
+	let pos_btm =
+		-gws.h / 2.0;
 
-	// Spawn player's sprite
-	cmds.spawn_bundle
-		(
-			SpriteBundle {
-				material: actor.ferris.clone(),
-				transform: Transform {
-					translation: Vec3::new(0.0, pos_btm + 70.0 / 2.0 + 5.0, 10.0),
-					scale: Vec3::new(SCALE, SCALE, 1.1),
+	cmds.spawn_bundle (
+		SpriteBundle {
+			texture: actor.ferris.clone(),
+			transform: Transform {
+				translation: Vec3::new(0.0, pos_btm + 70.0 / 2.0 + 5.0, 10.0),
+				scale: Vec3::new(SCALE, SCALE, 1.1),
 
-					..Default::default()
-				},
 				..Default::default()
-			}
-		)
-		.insert(Player)
-		.insert(PlayerReady(true))
-		.insert(Speed::default());
+			},
+			..Default::default()
+		}
+	)
+	.insert(Player)
+	.insert(PlayerReady(true))
+	.insert(Speed::default());
 }
 
 // Uses "WASD" for movement
-pub fn player_movement(
+pub fn movement_system(
 	input: Res<Input<KeyCode>>,
 	mut query: Query<
 		(
@@ -50,7 +65,7 @@ pub fn player_movement(
 	if let Ok((
 		player_speed,
 		mut player_trans
-	)) = query.single_mut() {
+	)) = query.get_single_mut() {
 			let dir_x =
 				if input.pressed(KeyCode::A) {
 					-0.7
@@ -74,9 +89,9 @@ pub fn player_movement(
 }
 
 // Spawn laser sprite
-pub fn player_shooting(
+pub fn shooting_system(
 	input: Res<Input<KeyCode>>,
-	laser: Res<LoadLaser>,
+	laser: Res<LaserLoader>,
 	mut cmds: Commands,
 	mut query: Query<
 		(
@@ -89,7 +104,7 @@ pub fn player_shooting(
 	if let Ok((
 		player_trans,
 		mut player_ready
-	)) = query.single_mut() {
+	)) = query.get_single_mut() {
 			if player_ready.0 && input.pressed(KeyCode::Space) {
 				let x =
 					player_trans.translation.x;
@@ -98,15 +113,19 @@ pub fn player_shooting(
 
 				cmds.spawn_bundle(
 					SpriteBundle {
-						material: laser.red.clone(),
-							transform: Transform {
-								translation: Vec3::new(x, y + 50.0, 0.0),
+						sprite: Sprite {
+							custom_size: Some(Vec2::new(12.0, 36.0)),
 
-								..Default::default()
-							},
 							..Default::default()
-					}
+						},
+						texture: laser.red.clone(),
+						transform: Transform {
+							translation: Vec3::new(x, y + 50.0, 0.0),
 
+							..Default::default()
+						},
+						..Default::default()
+					}
 				)
 				.insert(Laser)
 				.insert(Speed::default());
@@ -119,8 +138,9 @@ pub fn player_shooting(
 		}
 }
 
-pub fn player_laser_movement(
-	win_size: Res<GetWinSize>,
+// Move laser on screen while shooting
+pub fn laser_system(
+	gws: Res<GetWindowSize>,
 	mut cmds: Commands,
 	mut query: Query<
 		(
@@ -140,7 +160,7 @@ pub fn player_laser_movement(
 			&mut red_laser_trans.translation;
 
 			trans.y += red_laser_speed.0 * TIME_STEP;
-			if trans.y > win_size.h {
+			if trans.y > gws.h {
 				cmds.entity(red_laser_entity).despawn();
 			}
 	}

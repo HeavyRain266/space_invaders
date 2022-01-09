@@ -5,60 +5,52 @@ use bevy::{
 	window::WindowMode
 };
 
-use crate::types::*;
+use crate::components::*;
 
-// Default speed value
-impl Default for Speed {
-	fn default() -> Self {
-		Self(500.0)
-	}
-}
-
-// Asset loader
-pub fn assets(
+// Load all assets used in the game
+pub fn asset_loader(
 	server: Res<AssetServer>,
 	mut cmds: Commands,
 	mut windows: ResMut<Windows>,
-	mut material: ResMut<Assets<ColorMaterial>>,
 ) {
 	let win =
-		windows.get_primary_mut().unwrap();
+		windows
+			.get_primary_mut()
+			.unwrap();
+
+	let camera_2d =
+		OrthographicCameraBundle::new_2d();
+
+	// Enable hot reloading
+	server
+		.watch_for_changes()
+		.unwrap();
+
+	cmds.spawn_bundle(camera_2d);
 
 	// Load Actors
 	cmds.insert_resource(
-		LoadActor {
-			ferris: material.add(
-				server.load("actors\\ferris.png").into()
-			),
-			gopher: material.add(
-				server.load("actors\\gopher.png").into()
-			)
+		ActorLoader {
+			ferris: server.load("actors\\ferris.png"),
+			gopher: server.load("actors\\gopher.png")
 		}
 	);
 
 	// Load lasers
 	// TODO: Turn laser(s) from images to rectangles
 	cmds.insert_resource(
-		LoadLaser {
-			red: material.add(
-				server.load("lasers\\red.png").into()
-			)
+		LaserLoader {
+			red: server.load("lasers\\red.png")
 		}
 	);
 
 	// Get window size
 	cmds.insert_resource(
-		GetWinSize {
+		GetWindowSize {
 			h: win.height(),
 			w: win.width()
 		}
 	);
-
-	// Enable hot reload
-	server.watch_for_changes().unwrap();
-
-	// Setup 2D camera view
-	cmds.spawn_bundle(OrthographicCameraBundle::new_2d());
 }
 
 // Press "Delete" to exit game
@@ -72,21 +64,19 @@ pub fn exit_geme(
 	}
 }
 
-// Press "F" to enable fullscreen
-// Press "Escape" to disable it
-pub fn fullscreen(
+// Press "F" to turn on fullscreen mode
+// Press "Escape" to turn it off
+pub fn toggle_fullscreen(
 	input: Res<Input<KeyCode>>,
 	mut windows: ResMut<Windows>
 ) {
 	let win =
-		windows.get_primary_mut().unwrap();
+		windows
+			.get_primary_mut()
+			.unwrap();
 
 	if input.just_pressed(KeyCode::F) {
-		win.set_mode(
-			WindowMode::Fullscreen {
-				use_size: false
-			}
-		)
+		win.set_mode(WindowMode::Fullscreen)
 	} else if input.just_pressed(KeyCode::Escape) {
 		win.set_mode(WindowMode::Windowed)
 	}
