@@ -39,7 +39,7 @@ pub fn spawn_system(
 			texture: actor.ferris.clone(),
 			transform: Transform {
 				translation: Vec3::new(0.0, pos_btm + 70.0 / 2.0 + 5.0, 10.0),
-				scale: Vec3::new(SCALE, SCALE, 1.1),
+				scale: Vec3::new(0.8, 0.8, 1.1),
 
 				..Default::default()
 			},
@@ -74,7 +74,7 @@ pub fn movement_system(
 				} else {
 					0.0
 				};
-				player_trans.translation.x += dir_x * player_speed.0 * TIME_STEP;
+				player_trans.translation.x += dir_x * player_speed.0 * 1.0 / 60.0;
 
 			let dir_y =
 				if input.pressed(KeyCode::W) {
@@ -84,7 +84,7 @@ pub fn movement_system(
 				} else {
 					0.0
 				};
-				player_trans.translation.y += dir_y * player_speed.0 * TIME_STEP;
+				player_trans.translation.y += dir_y * player_speed.0 * 1.0 / 60.0;
 		}
 }
 
@@ -159,7 +159,7 @@ pub fn laser_system(
 		let trans =
 			&mut red_laser_trans.translation;
 
-			trans.y += red_laser_speed.0 * TIME_STEP;
+			trans.y += red_laser_speed.0 * 1.0 / 60.0;
 			if trans.y > gws.h {
 				cmds.entity(red_laser_entity).despawn();
 			}

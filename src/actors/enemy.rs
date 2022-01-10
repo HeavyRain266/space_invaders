@@ -61,7 +61,7 @@ pub fn spawn_system(
 				texture: actor.gopher.clone(),
 				transform: Transform {
 					translation: Vec3::new(x, y, 10.0),
-					scale: Vec3::new(SCALE, SCALE, 1.0),
+					scale: Vec3::new(0.8, 0.8, 1.0),
 
 					..Default::default()
 				},

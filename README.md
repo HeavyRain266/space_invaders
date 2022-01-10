@@ -47,3 +47,11 @@ cd space_invaders
 
 cargo build --release
 ```
+
+### Controls:
+
+**Keys**:
+  - **WASD**: Movement
+  - **Space**: Shooting
+  - **F & Espace**: Turn on/off fullscreen mode
+  - **Delete**: Exit game

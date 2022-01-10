@@ -1,9 +1,5 @@
 use bevy::prelude::*;
 
-// Shared types
-pub const SCALE: f32 = 0.8;
-pub const TIME_STEP: f32 = 1.0 / 60.0;
-
 pub struct GetWindowSize {
 	pub h: f32,
 	pub w: f32
