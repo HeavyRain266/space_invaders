@@ -18,11 +18,23 @@ use crate::{
 fn main() {
 	let mut app = App::new();
 
+	// Setup native Graphics API for each platform
+	let platform_api =
+		if cfg!(target_os = "windows") {
+			Backends::DX12
+		} else if cfg!(target_os = "macos") {
+			Backends::METAL
+		} else if cfg!(target_os = "linux") {
+			Backends::VULKAN
+		} else {
+			panic!("Unsupported platform!");
+		};
+
 	// Resources
 	app
 		.insert_resource(
 			WgpuOptions {
-    			backends: Some(Backends::DX12),
+    			backends: Some(platform_api),
 
 				..Default::default()
 			}

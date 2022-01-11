@@ -8,25 +8,7 @@ At first, clone source code.
 git clone https;//github.com/HeavyRain266/space_invaders.git
 ```
 
-Now enter project directory and build it, please note that current version have hardcoded Windows-style path for assets in `setup.rs` and DX12 rendering backend in `main.rs`.
-
-Before you build on macOS or Linux, change following:
-
-on macOS in file `main.rs`:
-
-```diff
-- Some(Backends::DX12)
-+ Some(Backends::METAL)
-```
-
-on Linux in file `main.rs`:
-
-```diff
-- Some(Backends::DX12)
-+ Some(Backends::VULKAN)
-```
-
-on both in file `setup.rs`:
+Before you build on macOS or Linux, change following in [setup.rs](src/setup.rs):
 
 ```diff
 - server.load("actors\\ferris.png")
