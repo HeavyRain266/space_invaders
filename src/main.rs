@@ -1,4 +1,4 @@
-mod setup;
+mod asset_loader;
 mod actors;
 mod components;
 
@@ -11,7 +11,7 @@ use bevy::{
 };
 
 use crate::{
-	setup::*,
+	asset_loader::*,
 	actors::*
 };
 
