@@ -1,14 +1,14 @@
 pub mod enemy;
 pub mod player;
 
-use bevy::{
-	prelude::*,
-	app::PluginGroupBuilder
-};
-
 use self::{
 	enemy::EnemyActor,
 	player::PlayerActor,
+};
+
+use bevy::{
+	prelude::*,
+	app::PluginGroupBuilder
 };
 
 pub struct ActorsBundle;

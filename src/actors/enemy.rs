@@ -1,3 +1,5 @@
+use crate::components::*;
+
 use bevy::{
 	prelude::*,
 	math::Vec3,
@@ -5,8 +7,6 @@ use bevy::{
 	sprite::collide_aabb::collide,
 };
 use rand::*;
-
-use crate::components::*;
 
 // Enemy Plugin for ActorsPlugin
 pub struct EnemyActor;

@@ -3,12 +3,12 @@ use std::{
 	process::exit
 };
 
+use crate::components::*;
+
 use bevy::{
 	prelude::*,
 	window::WindowMode
 };
-
-use crate::components::*;
 
 // Load all assets used in the game
 pub fn asset_loader(

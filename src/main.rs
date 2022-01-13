@@ -2,17 +2,17 @@ mod asset_loader;
 mod actors;
 mod components;
 
+use crate::{
+	actors::*,
+	asset_loader::*
+};
+
 use bevy::{
 	prelude::*,
 	render::options::{
 		Backends,
 		WgpuOptions
 	},
-};
-
-use crate::{
-	asset_loader::*,
-	actors::*
 };
 
 fn main() {

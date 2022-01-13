@@ -1,10 +1,10 @@
+use crate::components::*;
+
 use bevy::{
 	prelude::*,
 	math::Vec3,
 	input::Input
 };
-
-use crate::components::*;
 
 // Player plugin for ActorsPlugin
 pub struct PlayerActor;
