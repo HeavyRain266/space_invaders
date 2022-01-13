@@ -5,19 +5,7 @@ Simple game made with [bevy](https://github.com/bevyengine/bevy), implemented it
 ### How to build & run:
 At first, clone source code.
 ```
-git clone https;//github.com/HeavyRain266/space_invaders.git
-```
-
-Before you build on macOS or Linux, change following in [setup.rs](src/setup.rs):
-
-```diff
-- server.load("actors\\ferris.png")
-- server.load("actors\\gopher.png")
-+ server.load("actors/ferris.png")
-+ server.load("actors/gopher.png")
-
-- server.load("lasers\\red.png")
-+ server.load("lasers/red.png")
+git clone https://github.com/HeavyRain266/space_invaders.git
 ```
 
 Now you can simply build and run game.

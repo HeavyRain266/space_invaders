@@ -1,4 +1,7 @@
-use std::process::exit;
+use std::{
+	path::Path,
+	process::exit
+};
 
 use bevy::{
 	prelude::*,
@@ -18,21 +21,18 @@ pub fn asset_loader(
 			.get_primary_mut()
 			.unwrap();
 
-	let camera_2d =
-		OrthographicCameraBundle::new_2d();
-
 	// Enable hot reloading
 	server
 		.watch_for_changes()
 		.unwrap();
 
-	cmds.spawn_bundle(camera_2d);
+	cmds.spawn_bundle(OrthographicCameraBundle::new_2d());
 
 	// Load Actors
 	cmds.insert_resource(
 		ActorLoader {
-			ferris: server.load("actors\\ferris.png"),
-			gopher: server.load("actors\\gopher.png")
+			ferris: server.load(Path::new("actors/ferris.png")),
+			gopher: server.load(Path::new("actors/gopher.png"))
 		}
 	);
 
@@ -40,7 +40,7 @@ pub fn asset_loader(
 	// TODO: Turn laser(s) from images to rectangles
 	cmds.insert_resource(
 		LaserLoader {
-			red: server.load("lasers\\red.png")
+			red: server.load(Path::new("lasers/red.png"))
 		}
 	);
 
