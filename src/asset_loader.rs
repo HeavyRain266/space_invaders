@@ -10,7 +10,6 @@ use bevy::{
 	window::WindowMode
 };
 
-// Load all assets used in the game
 pub fn asset_loader(
 	server: Res<AssetServer>,
 	mut cmds: Commands,
@@ -22,13 +21,12 @@ pub fn asset_loader(
 			.unwrap();
 
 	// Enable hot reloading
-	server
-		.watch_for_changes()
-		.unwrap();
+	// server
+	// 	.watch_for_changes()
+	// 	.unwrap();
 
 	cmds.spawn_bundle(OrthographicCameraBundle::new_2d());
 
-	// Load Actors
 	cmds.insert_resource(
 		ActorLoader {
 			ferris: server.load(Path::new("actors/ferris.png")),
@@ -36,15 +34,12 @@ pub fn asset_loader(
 		}
 	);
 
-	// Load lasers
-	// TODO: Turn laser(s) from images to rectangles
 	cmds.insert_resource(
 		LaserLoader {
 			red: server.load(Path::new("lasers/red.png"))
 		}
 	);
 
-	// Get window size
 	cmds.insert_resource(
 		GetWindowSize {
 			h: win.height(),

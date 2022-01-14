@@ -5,7 +5,6 @@ pub struct GetWindowSize {
 	pub w: f32
 }
 
-// Shared Components
 #[derive(Component)]
 pub struct Laser;
 
@@ -18,27 +17,23 @@ impl Default for Speed {
 	}
 }
 
-// Actor loader
 #[derive(Component)]
 pub struct ActorLoader {
 	pub ferris: Handle<Image>,
 	pub gopher: Handle<Image>
 }
 
-// Laser loader
 #[derive(Component)]
 pub struct LaserLoader {
 	pub red: Handle<Image>
 }
 
-// Player components
 #[derive(Component)]
 pub struct Player;
 
 #[derive(Component)]
 pub struct PlayerReady(pub bool);
 
-// Enemy components
 #[derive(Component)]
 pub struct Enemy;
 

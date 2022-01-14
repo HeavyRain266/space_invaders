@@ -6,7 +6,6 @@ use bevy::{
 	input::Input
 };
 
-// Player plugin for ActorsPlugin
 pub struct PlayerActor;
 
 impl Plugin for PlayerActor {
@@ -25,7 +24,7 @@ impl Plugin for PlayerActor {
 	}
 }
 
-// Spawn player when game starts
+// Spawn player when game starts.
 pub fn spawn_system(
 	actor: Res<ActorLoader>,
 	gws: Res<GetWindowSize>,
@@ -51,7 +50,7 @@ pub fn spawn_system(
 	.insert(Speed::default());
 }
 
-// Uses "WASD" for movement
+// Uses "WASD" for movement.
 pub fn movement_system(
 	input: Res<Input<KeyCode>>,
 	mut query: Query<
@@ -88,7 +87,7 @@ pub fn movement_system(
 		}
 }
 
-// Spawn laser sprite
+// Spawn laser when player hit "Space".
 pub fn shooting_system(
 	input: Res<Input<KeyCode>>,
 	laser: Res<LaserLoader>,
@@ -160,8 +159,12 @@ pub fn laser_system(
 			&mut red_laser_trans.translation;
 
 			trans.y += red_laser_speed.0 * 1.0 / 60.0;
+
+			// Despawn laser when goes off-screen.
 			if trans.y > gws.h {
-				cmds.entity(red_laser_entity).despawn();
+				cmds
+					.entity(red_laser_entity)
+					.despawn();
 			}
 	}
 }

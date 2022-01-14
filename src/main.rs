@@ -18,7 +18,7 @@ use bevy::{
 fn main() {
 	let mut app = App::new();
 
-	// Setup native Graphics API for each platform
+	// Setup native Graphics API for each platform.
 	let platform_api =
 		if cfg!(target_os = "windows") {
 			Backends::DX12
@@ -62,6 +62,5 @@ fn main() {
 		.add_plugins(ActorsBundle)
 		.add_plugins(DefaultPlugins);
 
-	// Run game
 	app.run();
 }

@@ -13,6 +13,7 @@ use bevy::{
 
 pub struct ActorsBundle;
 
+// Bundles Actors as plugin.
 impl PluginGroup for ActorsBundle {
 	fn build(
 		&mut self,

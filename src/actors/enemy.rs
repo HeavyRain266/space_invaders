@@ -8,7 +8,6 @@ use bevy::{
 };
 use rand::*;
 
-// Enemy Plugin for ActorsPlugin
 pub struct EnemyActor;
 
 impl Plugin for EnemyActor {
@@ -28,7 +27,7 @@ impl Plugin for EnemyActor {
 }
 
 
-// Spawns enemy and respawns on death
+// Spawns enemy and respawns on death.
 pub fn spawn_system(
 	actor: Res<ActorLoader>,
 	gws: Res<GetWindowSize>,
@@ -73,7 +72,7 @@ pub fn spawn_system(
 	}
 }
 
-// Despawn enemy on collision with player's laser
+// Despawn enemy on collision with player's laser.
 pub fn despawn_system(
 	mut cmds: Commands,
 	mut red_laser_query: Query<
